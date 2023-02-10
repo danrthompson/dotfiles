@@ -1,0 +1,4 @@
+*.code-workspace
+antigen.log
+plugins
+.vscode
