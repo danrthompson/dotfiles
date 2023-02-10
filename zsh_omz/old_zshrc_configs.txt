@@ -1,0 +1,84 @@
+## themes
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+# ZSH_THEME="random"
+
+# # Set list of themes to pick from when loading at random
+# ZSH_THEME_RANDOM_CANDIDATES=(
+#     powerlevel10k
+
+#     nanotech
+
+#     clean
+#     crunch
+#     philips
+#     obraun
+#     tonotdo
+#     geoffgarside
+#     xiong-chiamiov-plus
+#     jonathan
+#     wedisagree
+#     junkfood
+#     re5et
+# )
+
+## old configs
+### themes considered
+# juanghurtado
+# agnoster
+# smt
+# UYSAL
+# af-magic
+# eastwood
+# blinks
+# robbyrussell
+# sonicradish
+
+# 3den Soliah adben
+# af-magic afowler agnoster
+# alanpeabody amuse apple
+# arrow aussiegeek avit
+# awesomepanda bira
+# bureau candy candy-kingdom
+# clean cloud crcandy
+# crunch cypher dallas
+# darkblood daveverwer dieter
+# dogenpunk dpoggi dst
+# dstufft duellj eastwood
+# edvardm emotty essembeh
+# evan fino fino-time
+# fishy flazz fletcherm
+# frisk frontcube
+# funky fwalch gallifrey
+# gallois garyblessington gentoo
+# geoffgarside gianu gnzh
+# gozilla half-life humza
+# imajes intheloop itchy
+# jaischeema jbergantine jispwoso
+# jnrowe jonathan
+# jreese jtriley juanghurtado
+# junkfood kafeitu
+# kennethreitz kiwi kolo
+# kphoen lambda linuxonly
+# lukerandall macovsky macovsky-ruby
+# maran mgutz mh
+# michelebologna mikeh miloshadzic
+# minimal mira mlh
+# mortalscumbag mrtazz murilasso
+# muse nebirhos
+# nicoulaj norm obraun
+# philips pmcgee
+# pygmalion pygmalion-virtualenv random
+# re5et refined rgm
+# risto rkj
+# rkj-repos robbyrussell sammy
+# simonoff simple skaro
+# smt sonicradish sorin
+# sporty_256 steeef strug
+# sunaku sunrise superjarin
+# suvash takashiyoshida terminalparty
+# theunraveler tjkirch tjkirch_mod
+# tonotdo trapd00r wedisagree
+# wezm wezm+ wuffers
+# xiong-chiamiov xiong-chiamiov-plus ys
+# zhann
