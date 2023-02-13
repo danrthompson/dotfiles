@@ -41,3 +41,8 @@ alias jn='jupyter-notebook ~/Code/Notebooks'
 alias pybook='cd /Users/danthompson/Code/Courses/pydata-book; mamba activate pydata-book'
 
 alias ipy='ipython'
+
+alias or="omz reload"
+
+# global aliases
+alias -g cat="bat -p"

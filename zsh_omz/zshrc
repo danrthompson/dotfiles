@@ -9,30 +9,6 @@ export ZSH_CUSTOM=/Users/danthompson/Code/dotfiles/zsh_omz
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-# omz plugins
-plugins=(
-    ag
-    autopep8
-    autojump
-    aws # completions # there was an antigen option
-    copypath
-    copyfile
-    copybuffer
-    dirhistory
-    git
-    jsontools # maybe done by antigen # there was an antigen option
-    macos
-    aliases
-    z
-    alias-finder
-    ripgrep
-    fzf
-    # ansible (aliases)
-    # autoenv (enables this tool)
-    # thefuck
-    # sudo (but i need to change the keybinding)
-)
-
 # plugins using antigen
 export ANTIGEN_LOG=/Users/danthompson/Code/dotfiles/zsh_omz/antigen.log
 
@@ -42,14 +18,43 @@ antigen use oh-my-zsh
 
 antigen theme romkatv/powerlevel10k
 
-antigen bundle zsh-users/zsh-autosuggestions
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle Aloxaf/fzf-tab
+# omz plugins
+antigen bundle jsontools # maybe done by antigen # there was an antigen option
+antigen bundle aws # completions # there was an antigen option
+antigen bundle ag
+antigen bundle autopep8
+antigen bundle autojump
+antigen bundle copypath
+antigen bundle copyfile
+antigen bundle copybuffer
+antigen bundle dirhistory
+antigen bundle git
+antigen bundle macos
+antigen bundle aliases
+antigen bundle z
+antigen bundle alias-finder
+antigen bundle ripgrep
+
+# probably disabled
+# antigen bundle fzf
+
+# disabled
+# antigen bundle ansible (aliases)
+# antigen bundle autoenv (enables this tool)
+# antigen bundle thefuck
+# antigen bundle sudo (but i need to change the keybinding)
+
+# other zsh plugins
 antigen bundle zdharma-continuum/zsh-diff-so-fancy --branch=main
 antigen bundle fdellwing/zsh-bat
 antigen bundle esc/conda-zsh-completion
 antigen bundle sunlei/zsh-ssh
-antigen bundle lincheney/fzf-tab-completion
+antigen bundle Aloxaf/fzf-tab
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-syntax-highlighting
+
+# disabled
+# antigen bundle lincheney/fzf-tab-completion
 # antigen bundle SleepyBag/fuzzy-fs # no longer working
 # antigen bundle aws/aws-cli
 # antigen bundle mm/jsontools
