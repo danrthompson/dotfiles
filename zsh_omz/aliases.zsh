@@ -54,6 +54,7 @@ alias j='fasd_cd -d'
 alias jj='fasd_cd -d -i'
 
 alias jc='fasd -a -e code'
+alias jjc='fasd -sia -e code'
 
 ## Dir and file shortcuts
 alias cdst='cd ~/Code/stock_price_prediction/'
