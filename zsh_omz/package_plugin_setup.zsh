@@ -72,3 +72,41 @@ fi
 
 # zsh-autosuggestions
 export ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history completion)
+
+# cht.sh
+## theme
+# other good options: fruity, igor
+export CHTSH_QUERY_OPTIONS="style=rrt"
+
+# bat
+## theme
+export BAT_THEME="Dracula"
+## themes considered
+# zenburn
+# Sublime Snazzy
+# OneHalfDark
+# Monokai Extended
+# Monokai Extended Bright
+# Monokai Extended Origin
+# Dracula
+# DarkNeon
+# Coldark-Dark
+# 1337
+
+# pager
+export PAGER=most
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
+# fasd
+eval "$(fasd --init zsh-hook zsh-ccomp zsh-ccomp-install \
+    zsh-wcomp zsh-wcomp-install)" >> "/dev/null" 2>&1
+
+
+# check if fasd is installed
+fasd_cache="${ZSH_CACHE_DIR}fasd-init-cache"
+if [[ "$commands[fasd]" -nt "$fasd_cache" || ! -s "$fasd_cache" ]]; then
+  fasd --init zsh-hook zsh-ccomp zsh-ccomp-install \
+    zsh-wcomp zsh-wcomp-install >| "$fasd_cache"
+fi
+source "$fasd_cache"
+unset fasd_cache

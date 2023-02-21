@@ -23,7 +23,6 @@ antigen bundle jsontools # maybe done by antigen # there was an antigen option
 antigen bundle aws # completions # there was an antigen option
 antigen bundle ag
 antigen bundle autopep8
-antigen bundle autojump
 antigen bundle copypath
 antigen bundle copyfile
 antigen bundle copybuffer
@@ -31,15 +30,17 @@ antigen bundle dirhistory
 antigen bundle git
 antigen bundle macos
 antigen bundle aliases
-antigen bundle z
 antigen bundle alias-finder
 antigen bundle ripgrep
 antigen bundle git-prompt
 
+# antigen bundle fasd
 # probably disabled
 # antigen bundle fzf
 
 # disabled
+# antigen bundle autojump (in favor of fasd)
+# antigen bundle z (in favor of fasd)
 # antigen bundle ansible (aliases)
 # antigen bundle autoenv (enables this tool)
 # antigen bundle thefuck
@@ -47,7 +48,6 @@ antigen bundle git-prompt
 
 # other zsh plugins
 antigen bundle zdharma-continuum/zsh-diff-so-fancy --branch=main
-antigen bundle fdellwing/zsh-bat
 antigen bundle esc/conda-zsh-completion
 antigen bundle zsh-users/zsh-completions
 antigen bundle sunlei/zsh-ssh
@@ -56,6 +56,7 @@ antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-syntax-highlighting
 
 # disabled
+# antigen bundle fdellwing/zsh-bat
 # antigen bundle lincheney/fzf-tab-completion
 # antigen bundle SleepyBag/fuzzy-fs # no longer working
 # antigen bundle aws/aws-cli

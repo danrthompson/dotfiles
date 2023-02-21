@@ -22,13 +22,42 @@
 alias install='nocorrect install'
 
 # aliases
-## Git
+## Programs
+### Git
 alias gs='git status'
 alias gc='git commit -a -m'
 
+### fasd
+# dirs
+alias jd='fasd -d'
+# files
+alias jf='fasd -f'
+# files and dirs
+alias ja='fasd -a'
+# dirs with scores, interactive
+alias jjd='fasd -sid'
+# files with scores, interactive
+alias jjf='fasd -sif'
+# paths with scores, interactive mode
+alias jja='fasd -si'
+# function to execute built-in cd
+fasd_cd() {
+  if [ $# -le 1 ]; then
+    fasd "$@"
+  else
+    local _fasd_ret="$(fasd -e 'printf %s' "$@")"
+    [ -z "$_fasd_ret" ] && return
+    [ -d "$_fasd_ret" ] && cd "$_fasd_ret" || printf %s\n "$_fasd_ret"
+  fi
+}
+alias j='fasd_cd -d'
+alias jj='fasd_cd -d -i'
+
+alias jc='fasd -a -e code'
+
 ## Dir and file shortcuts
 alias cdst='cd ~/Code/stock_price_prediction/'
-alias zshrc="code ~/.zshrc"
+alias zshrc="code /Users/danthompson/Code/dotfiles/zsh_omz"
 alias jn='jupyter-notebook ~/Code/Notebooks'
 
 ## Command aliases
@@ -45,4 +74,6 @@ alias pybook='cd /Users/danthompson/Code/Courses/pydata-book; mamba activate pyd
 
 # global aliases
 ## Main program override
+alias -g e="exa -a"
 alias -g cat="bat -p"
+alias -g b="bat"
