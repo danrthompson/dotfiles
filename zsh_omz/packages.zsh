@@ -1,17 +1,17 @@
-## vscode
-# Preferred editor for local and remote sessions
+# vscode
+## Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
     export EDITOR='code'
 else
     export EDITOR='nano'
 fi
 
-## goku setup
+# goku setup
 export GOKU_EDN_CONFIG_FILE="/Users/danthompson/Dropbox/karabiner/karabiner.edn"
 
-## conda
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
+# conda
+## >>> conda initialize >>>
+## !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/Users/danthompson/mambaforge/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
@@ -27,24 +27,25 @@ unset __conda_setup
 if [ -f "/Users/danthompson/mambaforge/etc/profile.d/mamba.sh" ]; then
     . "/Users/danthompson/mambaforge/etc/profile.d/mamba.sh"
 fi
-# <<< conda initialize <<<
+## <<< conda initialize <<<
 
 
-## mcfly
+# mcfly
 eval "$(mcfly init zsh)"
 export MCFLY_FUZZY=2
 
-## deta
-# export PATH="/Users/danthompson/.deta/bin:$PATH"
+# deta
+## export PATH="/Users/danthompson/.deta/bin:$PATH"
 fpath=(~/.zsh.d/ $fpath)
-# export PATH="/Users/danthompson/.local/bin:$PATH"
+## export PATH="/Users/danthompson/.local/bin:$PATH"
 
-## iTerm
+# iTerm
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-## nvm
+# nvm
 export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+## completion
 [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 # fzf
@@ -52,3 +53,19 @@ source /opt/homebrew/share/antigen/antigen.zsh [ -f ~/.fzf.zsh ] && source ~/.fz
 
 # antigen
 source /opt/homebrew/share/antigen/antigen.zsh
+
+# p10k theme
+## To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+
+# Completions
+## toggl
+
+#compdef toggl
+_toggl() {
+  eval $(env COMMANDLINE="${words[1,$CURRENT]}" _TOGGL_COMPLETE=complete-zsh  toggl)
+}
+if [[ "$(basename -- ${(%):-%x})" != "_toggl" ]]; then
+  compdef _toggl toggl
+fi

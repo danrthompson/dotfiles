@@ -48,6 +48,7 @@ antigen bundle ripgrep
 antigen bundle zdharma-continuum/zsh-diff-so-fancy --branch=main
 antigen bundle fdellwing/zsh-bat
 antigen bundle esc/conda-zsh-completion
+antigen bundle zsh-users/zsh-completions
 antigen bundle sunlei/zsh-ssh
 antigen bundle Aloxaf/fzf-tab
 antigen bundle zsh-users/zsh-autosuggestions
@@ -69,3 +70,6 @@ source $ZSH/oh-my-zsh.sh
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+
+setopt globdots
+zstyle ':completion:*' special-dirs false

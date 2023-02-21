@@ -1,4 +1,4 @@
-## Aliases
+3## Aliases
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
@@ -18,31 +18,31 @@
 # }
 
 
-## prevent certain corrections
+# prevent certain corrections
 alias install='nocorrect install'
 
-## aliases
-
+# aliases
+## Git
 alias gs='git status'
-alias gom='git checkout $(git_main_branch)'
-alias god='git checkout $(git_develop_branch)'
-alias gcm='git commit -m'
+alias gc='git commit -a -m'
 
+## Dir and file shortcuts
 alias cdst='cd ~/Code/stock_price_prediction/'
-
-alias lsr='ls -lARFh'
-
 alias zshrc="code ~/.zshrc"
+alias jn='jupyter-notebook ~/Code/Notebooks'
+
+## Command aliases
+alias lsr='ls -lARFh'
 alias h='history'
 alias p='ps -f'
 alias H='\| head'
-alias jn='jupyter-notebook ~/Code/Notebooks'
-
-alias pybook='cd /Users/danthompson/Code/Courses/pydata-book; mamba activate pydata-book'
-
 alias ipy='ipython'
-
 alias or="omz reload"
 
+## Environment management
+alias pybook='cd /Users/danthompson/Code/Courses/pydata-book; mamba activate pydata-book'
+
+
 # global aliases
+## Main program override
 alias -g cat="bat -p"
