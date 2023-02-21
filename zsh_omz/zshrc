@@ -34,6 +34,7 @@ antigen bundle aliases
 antigen bundle z
 antigen bundle alias-finder
 antigen bundle ripgrep
+antigen bundle git-prompt
 
 # probably disabled
 # antigen bundle fzf
@@ -70,6 +71,3 @@ source $ZSH/oh-my-zsh.sh
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
-
-setopt globdots
-zstyle ':completion:*' special-dirs false

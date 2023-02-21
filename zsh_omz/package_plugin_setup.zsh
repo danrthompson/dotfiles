@@ -69,3 +69,6 @@ _toggl() {
 if [[ "$(basename -- ${(%):-%x})" != "_toggl" ]]; then
   compdef _toggl toggl
 fi
+
+# zsh-autosuggestions
+export ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history completion)
