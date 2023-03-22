@@ -103,6 +103,7 @@ eval "$(fasd --init zsh-hook zsh-ccomp zsh-ccomp-install \
 
 
 # check if fasd is installed
+## setup
 fasd_cache="${ZSH_CACHE_DIR}fasd-init-cache"
 if [[ "$commands[fasd]" -nt "$fasd_cache" || ! -s "$fasd_cache" ]]; then
   fasd --init zsh-hook zsh-ccomp zsh-ccomp-install \
@@ -110,3 +111,7 @@ if [[ "$commands[fasd]" -nt "$fasd_cache" || ! -s "$fasd_cache" ]]; then
 fi
 source "$fasd_cache"
 unset fasd_cache
+
+## config
+_FASD_MAX=5000
+_FASD_BACKENDS="native current spotlight"
