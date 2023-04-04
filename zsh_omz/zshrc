@@ -33,6 +33,7 @@ antigen bundle aliases
 antigen bundle alias-finder
 antigen bundle ripgrep
 antigen bundle git-prompt
+antigen bundle Tarrasch/zsh-autoenv
 
 # antigen bundle fasd
 # probably disabled

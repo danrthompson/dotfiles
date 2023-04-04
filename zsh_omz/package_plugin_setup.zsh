@@ -115,3 +115,6 @@ unset fasd_cache
 ## config
 _FASD_MAX=5000
 _FASD_BACKENDS="native current spotlight"
+
+# direnv
+eval "$(direnv hook zsh)"

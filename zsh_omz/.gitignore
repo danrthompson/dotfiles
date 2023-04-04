@@ -3,3 +3,6 @@ antigen.log
 plugins
 .vscode
 zshrc.zwc
+secrets.zsh
+secrets.sh
+.env
