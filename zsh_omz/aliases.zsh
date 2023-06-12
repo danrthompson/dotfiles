@@ -27,6 +27,9 @@ alias install='nocorrect install'
 alias gs='git status'
 alias gc='git commit -a -m'
 
+### Chatblade
+alias -g cb='chatblade'
+
 ### fasd
 # dirs
 alias jd='fasd -d'
