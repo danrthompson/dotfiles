@@ -4,11 +4,17 @@ export AWS_DEFAULT_PROFILE=admin
 autoload -U bashcompinit
 bashcompinit
 
+# secretive
+export SSH_AUTH_SOCK="$HOME/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh"
+
+# pipx
+export PIPX_DEFAULT_PYTHON="/Users/danthompson/.pyenv/versions/base_dev_vm/bin/python"
+
 
 # vscode
 ## Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-    export EDITOR='code'
+    export EDITOR='cursor'
 else
     export EDITOR='nano'
 fi
@@ -58,6 +64,9 @@ source /opt/homebrew/share/antigen/antigen.zsh
 
 
 # Completions
+## 1password
+eval "$(op completion zsh)"; compdef _op op
+# source /Users/danthompson/.config/op/plugins.sh
 ## toggl
 
 #compdef toggl
@@ -95,25 +104,29 @@ export BAT_THEME="Dracula"
 export PAGER=most
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
+# zoxide
+eval "$(zoxide init zsh)"
 
-# fasd
-eval "$(fasd --init zsh-hook zsh-ccomp zsh-ccomp-install \
-    zsh-wcomp zsh-wcomp-install)" >> "/dev/null" 2>&1
+# removed
+# # fasd
+# eval "$(fasd --init zsh-hook zsh-ccomp zsh-ccomp-install \
+#     zsh-wcomp zsh-wcomp-install)" >> "/dev/null" 2>&1
 
 
-# check if fasd is installed
-## setup
-fasd_cache="${ZSH_CACHE_DIR}fasd-init-cache"
-if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
-  fasd --init zsh-hook zsh-ccomp zsh-ccomp-install \
-    zsh-wcomp zsh-wcomp-install >| "$fasd_cache"
-fi
-source "$fasd_cache"
-unset fasd_cache
+# # check if fasd is installed
+# ## setup
+# fasd_cache="${ZSH_CACHE_DIR}fasd-init-cache"
+# if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
+#   fasd --init zsh-hook zsh-ccomp zsh-ccomp-install \
+#     zsh-wcomp zsh-wcomp-install >| "$fasd_cache"
+# fi
+# source "$fasd_cache"
+# unset fasd_cache
 
-## config
-_FASD_MAX=5000
-_FASD_BACKENDS="native current spotlight"
+# ## config
+# export _FASD_MAX=5000
+# export _FASD_BACKENDS="native current spotlight"
+# export _FASD_NOCASE=1
 
 # Shell-GPT integration ZSH v0.1
 _sgpt_zsh() {

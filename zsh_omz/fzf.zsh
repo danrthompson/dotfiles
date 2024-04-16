@@ -12,7 +12,7 @@ fi
 # ------------
 # source "/opt/homebrew/opt/fzf/shell/key-bindings.zsh"
 
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --color=always'
 
 # Use fd (https://github.com/sharkdp/fd) instead of the default find
 # command for listing path candidates.

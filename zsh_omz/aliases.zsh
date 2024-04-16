@@ -18,6 +18,9 @@
 # }
 
 
+alias -g cr="cursor"
+
+
 # prevent certain corrections
 alias install='nocorrect install'
 
@@ -34,54 +37,66 @@ alias pd='pyenv deactivate'
 ### Chatblade
 alias -g cb='chatblade'
 
-### fasd - recent (or just past) directory and file navigation, in iTerm and VSCode or Finder
-# function to execute built-in cd
-fasd_cd() {
-  if [ $# -le 1 ]; then
-    fasd "$@"
-  else
-    local _fasd_ret="$(fasd -e 'printf %s' "$@")"
-    [ -z "$_fasd_ret" ] && return
-    [ -d "$_fasd_ret" ] && cd "$_fasd_ret" || printf %s\n "$_fasd_ret"
-  fi
+# zoxide
+# Use zoxide with fzf for interactive directory selection
+zi () {
+    local dir
+    dir=$(zoxide query --list | fzf --height 40% --reverse) && cd "$dir"
 }
 
-## Opening directories in iTerm. Provide a search string and it will find the best matching directories and open the best (or chosen) one in iTerm
-# Open the best matching dir
-alias j='fasd_cd -d'
-# Interactively choose among the best matching directories to open in iTerm
-alias jj='fasd_cd -d -i'
 
-## Opening directories in VSCode
-# Open best match
-alias jc='fasd -d -e code'
-# Interactively select among best matches
-alias jjc='fasd -sid -e code'
+alias j="z"
+alias jj="zi"
 
-## Opening files in VSCode
-# Open best match
-alias jcf='fasd -f -e code'
-# Interactively select among best matches
-alias jjcf='fasd -sif -e code'
+### removed
+# ### fasd - recent (or just past) directory and file navigation, in iTerm and VSCode or Finder
+# # function to execute built-in cd
+# fasd_cd() {
+#   if [ $# -le 1 ]; then
+#     fasd "$@"
+#   else
+#     local _fasd_ret="$(fasd -e 'printf %s' "$@")"
+#     [ -z "$_fasd_ret" ] && return
+#     [ -d "$_fasd_ret" ] && cd "$_fasd_ret" || printf %s\n "$_fasd_ret"
+#   fi
+# }
 
-## Opening directories in Finder
-# Open best match
-alias jo='fasd -d -e open'
-# Interactively select among best matches
-alias jjo='fasd -sid -e open'
+# ## Opening directories in iTerm. Provide a search string and it will find the best matching directories and open the best (or chosen) one in iTerm
+# # Open the best matching dir
+# alias j='fasd_cd -d'
+# # Interactively choose among the best matching directories to open in iTerm
+# alias jj='fasd_cd -d -i'
 
-## Opening files in Finder
-# Open best match
-alias jof='fasd -f -e open'
-# Interactively select among best matches
-alias jjof='fasd -sif -e open'
+# ## Opening directories in VSCode
+# # Open best match
+# alias jc='fasd -d -e cursor'
+# # Interactively select among best matches
+# alias jjc='fasd -sid -e cursor'
 
-# Show all matching dirs with scores (optionally provide a search string)
-alias jds='fasd -d'
-# Ditto for files
-alias jfs='fasd -f'
-# Ditto for files and dirs
-alias jas='fasd -a'
+# ## Opening files in VSCode
+# # Open best match
+# alias jcf='fasd -f -e cursor'
+# # Interactively select among best matches
+# alias jjcf='fasd -sif -e cursor'
+
+# ## Opening directories in Finder
+# # Open best match
+# alias jo='fasd -d -e open'
+# # Interactively select among best matches
+# alias jjo='fasd -sid -e open'
+
+# ## Opening files in Finder
+# # Open best match
+# alias jof='fasd -f -e open'
+# # Interactively select among best matches
+# alias jjof='fasd -sif -e open'
+
+# # Show all matching dirs with scores (optionally provide a search string)
+# alias jds='fasd -d'
+# # Ditto for files
+# alias jfs='fasd -f'
+# # Ditto for files and dirs
+# alias jas='fasd -a'
 # Dirs and scores with interactive selection - not sure what this is for actually. Disabling until I figure that out. Maybe could be used to open the file in another app like Finder or VSCode?
 # alias jjd='fasd -sid'
 # # files with scores, interactive
@@ -93,14 +108,14 @@ alias jas='fasd -a'
 # Work dirs
 # Dictation app
 alias oww='cd /Users/danthompson/Code/Git/XCode/WhisperDictationApp'
-alias cww='code /Users/danthompson/Code/Git/XCode/WhisperDictationApp'
+alias cww='cursor /Users/danthompson/Code/Git/XCode/WhisperDictationApp'
 # OnlyFans app
 alias oof='cd /Users/danthompson/Code/Git/my_repos/OnlyFans'
-alias cof='code /Users/danthompson/Code/Git/my_repos/OnlyFans'
+alias cof='cursor /Users/danthompson/Code/Git/my_repos/OnlyFans'
 
 # Useful common dirs
 # alias cdst='cd ~/Code/stock_price_prediction/'
-alias zz="code /Users/danthompson/Code/dotfiles"
+alias zz="cursor /Users/danthompson/Code/dotfiles"
 alias pynb='jupyter-notebook ~/Code/Notebooks'
 
 
@@ -130,16 +145,20 @@ alias -g e="exa -a"
 alias -g cat="bat -p"
 alias -g b="bat"
 alias -g ggs="sgpt"
-alias cc="it2copy"
+alias -g cc="it2copy"
 
 alias ww="~/Code/Tools/cloned/whisper-writer/src/start_background_process.zsh"
 
 alias wk="~/Code/Tools/cloned/whisper-writer/src/kill_background_process.zsh"
 alias wl="tail -f ~/Code/Tools/cloned/whisper-writer/nohup.out"
+alias wd="less -R +F ~/Code/Tools/cloned/whisper-writer/color_diffs.out"
 
 alias wr='if [ -n "$(ps aux | grep "src/km_handler" | grep -v grep)" ]; then echo "Process is running"; else echo "Process is not running"; fi'
 
 alias wf="osascript -e 'tell application \"Keyboard Maestro Engine\" to setvariable \"WhisperRunning\" to \"no\"'"
+
+alias suv="uvicorn server.main:app --reload --host 'localhost' --port 8000"
+alias psh="poetry shell"
 
 function ggr() {
   cd /Users/danthompson/Code/Tools/cloned/gpt-researcher
