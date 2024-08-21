@@ -27,6 +27,7 @@ antigen bundle autopep8
 antigen bundle copypath
 antigen bundle copyfile
 antigen bundle copybuffer
+antigen bundle direnv
 antigen bundle dirhistory
 antigen bundle git
 antigen bundle macos
@@ -89,4 +90,7 @@ if [ -f '/Users/danthompson/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/dan
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/danthompson/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/danthompson/google-cloud-sdk/completion.zsh.inc'; fi
+
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 

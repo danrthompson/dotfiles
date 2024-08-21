@@ -18,15 +18,26 @@
 # }
 
 
-alias -g cr="cursor"
+alias -g u="cursor"
 
+alias stopjackett="launchctl unload ~/Library/LaunchAgents/Disabled/org.user.Jackett.plist"
+alias startjackett="launchctl load ~/Library/LaunchAgents/Disabled/org.user.Jackett.plist"
 
 # prevent certain corrections
 alias install='nocorrect install'
 
 # aliases
 ## Programs
+### Firebase emulator
+alias emb="export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES"
+alias ema="unset OBJC_DISABLE_INITIALIZE_FORK_SAFETY"
 ### Git
+alias -g np="git checkout HEAD -- Speakeasy.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved && "
+
+alias stashnp="git add . && git reset Speakeasy.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved && git stash push -S"
+
+alias addnp="git add . && git reset Speakeasy.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
+
 alias gs='git status'
 alias gc='git commit -a -m'
 alias gom='git checkout main'
@@ -141,7 +152,7 @@ alias ads='mamba activate data_science_env'
 
 # global aliases
 ## Main program override
-alias -g e="exa -a"
+alias -g e="eza -a"
 alias -g cat="bat -p"
 alias -g b="bat"
 alias -g ggs="sgpt"
@@ -164,3 +175,6 @@ function ggr() {
   cd /Users/danthompson/Code/Tools/cloned/gpt-researcher
   uvicorn main:app --reload
 }
+
+alias -g ss="gh copilot suggest -t shell "
+alias -g ee="gh copilot explain "

@@ -3,6 +3,9 @@ unsetopt BEEP
 setopt globdots
 zstyle ':completion:*' special-dirs false
 
+
+ulimit -n 4096
+
 ## User configuration
 # export MANPATH="/usr/local/man:$MANPATH"
 # You may need to manually set your language environment

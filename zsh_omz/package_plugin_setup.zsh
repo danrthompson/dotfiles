@@ -1,4 +1,9 @@
 export AWS_DEFAULT_PROFILE=admin
+export GRPC_PYTHON_BUILD_SYSTEM_ZLIB=true
+
+export PIP_REQUIRE_VIRTUALENV=true
+
+# export DOCKER_HOST="unix:///Users/danthompson/Library/Containers/com.docker.docker/Data/docker-cli.sock"
 
 # completions
 autoload -U bashcompinit
@@ -8,7 +13,7 @@ bashcompinit
 export SSH_AUTH_SOCK="$HOME/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh"
 
 # pipx
-export PIPX_DEFAULT_PYTHON="/Users/danthompson/.pyenv/versions/base_dev_vm/bin/python"
+export PIPX_DEFAULT_PYTHON="/Users/danthompson/.pyenv/versions/pipx_venv/bin/python"
 
 
 # vscode
@@ -156,7 +161,7 @@ function async_load_slow_packages() {
     # mcfly
     eval "$(mcfly init zsh)"
     # direnv
-    eval "$(direnv hook zsh)"
+    # eval "$(direnv hook zsh)"
 
     # The next line updates PATH for the Google Cloud SDK.
     if [ -f '/Users/danthompson/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/danthompson/Downloads/google-cloud-sdk/path.zsh.inc'; fi
@@ -171,3 +176,9 @@ async_job slow_packages_worker async_load_slow_packages
 # fast stuff from async load
 export MCFLY_FUZZY=2
 export NVM_DIR="$HOME/.nvm"
+
+# brew python flags
+export LDFLAGS="-L/opt/homebrew/opt/openssl@1.1/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/openssl@1.1/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl@1.1/lib/pkgconfig"
+export PYTHON_CONFIGURE_OPTS="--with-openssl=$(brew --prefix openssl@1.1)"
