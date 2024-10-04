@@ -1,7 +1,7 @@
 # Setup fzf
 # ---------
 if [[ ! "$PATH" == */opt/homebrew/opt/fzf/bin* ]]; then
-  PATH="${PATH:+${PATH}:}/opt/homebrew/opt/fzf/bin"
+    PATH="${PATH:+${PATH}:}/opt/homebrew/opt/fzf/bin"
 fi
 
 # Auto-completion
@@ -42,7 +42,6 @@ _fzf_compgen_dir() {
 #     esac
 # }
 
-
 # fzf-tab config
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
@@ -57,21 +56,30 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 
 alias odd='/bin/dd'
 
+function jfn() {
+    fd --type f --hidden --follow --exclude .git --exclude .history -d $1 | fzf --preview "bat -n --color=always {}"
+}
+alias -g jf='jfn 3'
+alias jf4='jfn 4'
+alias jf5='jfn 5'
 
-alias -g fdd='fd --type d --hidden --follow --exclude .git --exclude .history'
-alias -g fdf='fd --type f --hidden --follow --exclude .git --exclude .history'
-alias -g zd='fzf --preview "tree -C {} | head -200"'
-alias -g zf='fzf --preview "bat -n --color=always {}"'
+function jdn() {
+    fd --type d --hidden --follow --exclude .git --exclude .history -d $1 | fzf --preview "tree -C {} | head -200"
+}
 
-ff() {
-    result=$(fdf $@ | zf)
+alias jd='jdn 3'
+alias jd4='jdn 4'
+alias jd5='jdn 5'
+
+jff() {
+    result="$(jf)"
     if [[ -z "$result" ]]; then
         return
     fi
     echo $result | pbcopy
 }
-dd() {
-    result=$(fdd $@ | zd)
+jdd() {
+    result="$(jd)"
     if [[ -z "$result" ]]; then
         return
     fi

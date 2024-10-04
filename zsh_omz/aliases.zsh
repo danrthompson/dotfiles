@@ -32,6 +32,10 @@ alias install='nocorrect install'
 alias emb="export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES"
 alias ema="unset OBJC_DISABLE_INITIALIZE_FORK_SAFETY"
 ### Git
+alias -g gap="git add -p -- "
+alias -g go="git checkout "
+alias -g gob="git checkout -b "
+alias -g gb="git branch "
 alias -g np="git checkout HEAD -- Speakeasy.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved && "
 
 alias stashnp="git add . && git reset Speakeasy.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved && git stash push -S"
@@ -39,22 +43,23 @@ alias stashnp="git add . && git reset Speakeasy.xcodeproj/project.xcworkspace/xc
 alias addnp="git add . && git reset Speakeasy.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
 
 alias gs='git status'
-alias gc='git commit -a -m'
+alias -g gc="git commit -m "
+alias -g gca="git commit --verbose --all -m "
 alias gom='git checkout main'
+alias grl='git reset HEAD^1'
 
 ### Pyenv
-alias pd='pyenv deactivate'
+# alias pd='pyenv deactivate'
 
 ### Chatblade
 alias -g cb='chatblade'
 
 # zoxide
 # Use zoxide with fzf for interactive directory selection
-zi () {
-    local dir
-    dir=$(zoxide query --list | fzf --height 40% --reverse) && cd "$dir"
+zi() {
+  local dir
+  dir=$(zoxide query --list | fzf --height 40% --reverse) && cd "$dir"
 }
-
 
 alias j="z"
 alias jj="zi"
@@ -129,7 +134,6 @@ alias cof='cursor /Users/danthompson/Code/Git/my_repos/OnlyFans'
 alias zz="cursor /Users/danthompson/Code/dotfiles"
 alias pynb='jupyter-notebook ~/Code/Notebooks'
 
-
 ## Command aliases
 alias lsr='ls -lARFh'
 alias h='history'
@@ -138,12 +142,15 @@ alias ipy='ipython'
 alias or="omz reload"
 
 ## Pipe commands
-alias -g qh='| head '
-alias -g qt='| tail '
-alias -g qtf='| tail -f '
-alias -g ql='| wc -l '
-alias -g qg='| grep '
-alias -g pa='pyenv activate '
+alias -g ph='| head '
+alias -g pt='| tail '
+alias -g ptf='| tail -f '
+alias -g pl='| wc -l '
+alias -g pg=' | grep '
+alias va='source .venv/bin/activate'
+alias vd='deactivate'
+
+# alias -g pa='pyenv activate '
 
 ## Environment management
 alias pybook='cd /Users/danthompson/Code/Courses/pydata-book; mamba activate pydata-book'
@@ -155,7 +162,9 @@ alias ads='mamba activate data_science_env'
 alias -g e="eza -a"
 alias -g cat="bat -p"
 alias -g b="bat"
-alias -g ggs="sgpt"
+alias -g gg="sgpt --repl tempr "
+alias -g ggc="sgpt --chat tempc "
+alias -g ggn="sgpt "
 alias -g cc="it2copy"
 
 alias ww="~/Code/Tools/cloned/whisper-writer/src/start_background_process.zsh"
@@ -171,10 +180,66 @@ alias wf="osascript -e 'tell application \"Keyboard Maestro Engine\" to setvaria
 alias suv="uvicorn server.main:app --reload --host 'localhost' --port 8000"
 alias psh="poetry shell"
 
-function ggr() {
-  cd /Users/danthompson/Code/Tools/cloned/gpt-researcher
-  uvicorn main:app --reload
-}
+# function ggr() {
+#   cd /Users/danthompson/Code/Tools/cloned/gpt-researcher
+#   uvicorn main:app --reload
+# }
 
 alias -g ss="gh copilot suggest -t shell "
 alias -g ee="gh copilot explain "
+alias -g bb="fabric"
+
+# Alias functions
+
+# alias search
+alias -g aas="alias | grep "
+
+# alias add
+aaa() {
+  local alias_type=""
+  local alias_name="$1"
+  local alias_command="$2"
+  local aliases_file="/Users/danthompson/Code/dotfiles/zsh_omz/aliases.zsh"
+
+  # Check if enough arguments are provided
+  if [[ -z "$alias_name" || -z "$alias_command" ]]; then
+    echo "Usage: adda [-g|-s|-f] <name> <command_or_function>"
+    return 1
+  fi
+
+  # Handle optional flags
+  case "$1" in
+  -g)
+    alias_type="-g"
+    shift
+    ;;
+  -s)
+    alias_type="-s"
+    shift
+    ;;
+  -f)
+    alias_type="function"
+    shift
+    ;;
+  esac
+
+  alias_name="$1"
+  alias_command="$2"
+
+  # Handle adding functions
+  if [[ "$alias_type" == "function" ]]; then
+    echo "$alias_name () {" >>"$aliases_file"
+    echo "$alias_command" | sed 's/^/    /' >>"$aliases_file"
+    echo "}" >>"$aliases_file"
+    echo "Function added: $alias_name"
+  else
+    # Handle global and standard aliases
+    echo "alias $alias_type $alias_name='$alias_command'" >>"$aliases_file"
+    echo "Alias added: alias $alias_type $alias_name='$alias_command'"
+  fi
+
+  # Source the updated aliases file to make the new alias or function immediately available
+  source "$aliases_file"
+}
+
+# # auto added

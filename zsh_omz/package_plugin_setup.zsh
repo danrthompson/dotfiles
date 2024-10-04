@@ -10,7 +10,10 @@ autoload -U bashcompinit
 bashcompinit
 
 # secretive
-export SSH_AUTH_SOCK="$HOME/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh"
+export SSH_AUTH_SOCK='/Users/danthompson/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh'
+
+# postgres
+export PATH="/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH"
 
 # pipx
 export PIPX_DEFAULT_PYTHON="/Users/danthompson/.pyenv/versions/pipx_venv/bin/python"
@@ -149,17 +152,15 @@ bindkey ^l _sgpt_zsh
 
 eval "$(fnm env --use-on-cd)"
 
-
 async_init
 
 # Async load slow things
 function async_load_slow_packages() {
     # pyenv
-    eval "$(command pyenv init -)"
-    eval "$(command pyenv virtualenv-init -)"
+    # eval "$(command pyenv init -)"
+    # eval "$(command pyenv virtualenv-init -)"
 
-    # mcfly
-    eval "$(mcfly init zsh)"
+
     # direnv
     # eval "$(direnv hook zsh)"
 
@@ -182,3 +183,10 @@ export LDFLAGS="-L/opt/homebrew/opt/openssl@1.1/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/openssl@1.1/include"
 export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl@1.1/lib/pkgconfig"
 export PYTHON_CONFIGURE_OPTS="--with-openssl=$(brew --prefix openssl@1.1)"
+
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/danthompson/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/danthompson/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/danthompson/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/danthompson/google-cloud-sdk/completion.zsh.inc'; fi
