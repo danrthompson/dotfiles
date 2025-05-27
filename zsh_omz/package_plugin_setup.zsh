@@ -1,7 +1,6 @@
 export AWS_DEFAULT_PROFILE=admin
 export GRPC_PYTHON_BUILD_SYSTEM_ZLIB=true
 
-export PIP_REQUIRE_VIRTUALENV=true
 
 # export DOCKER_HOST="unix:///Users/danthompson/Library/Containers/com.docker.docker/Data/docker-cli.sock"
 
@@ -22,32 +21,64 @@ export PIPX_DEFAULT_PYTHON="/Users/danthompson/.pyenv/versions/pipx_venv/bin/pyt
 # vscode
 ## Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-    export EDITOR='cursor'
-else
     export EDITOR='nano'
+else
+    export EDITOR='cursor'
+fi
+
+# python venv
+# Default: Require a virtualenv for pip installs
+export PIP_REQUIRE_VIRTUALENV=true
+# uv
+# export PATH="$HOME/.local/share/uv/python/cpython-3.12.7-macos-aarch64-none/bin:$PATH"
+# Set python to use uv
+alias ur="uv run "
+alias up="uv run python"
+alias upip='uv pip'
+alias upi='uv pip install '
+alias ua='uv add '
+# export UV_PYTHON='3.13'
+
+
+# ngrok
+if command -v ngrok &>/dev/null; then
+    eval "$(ngrok completion)"
 fi
 
 
 # conda
+
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/danthompson/mambaforge/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/opt/homebrew/Caskroom/miniforge/base/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/Users/danthompson/mambaforge/etc/profile.d/conda.sh" ]; then
-        . "/Users/danthompson/mambaforge/etc/profile.d/conda.sh"
+    if [ -f "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh" ]; then
+        . "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh"
     else
-        export PATH="/Users/danthompson/mambaforge/bin:$PATH"
+        export PATH="/opt/homebrew/Caskroom/miniforge/base/bin:$PATH"
     fi
 fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-if [ -f "/Users/danthompson/mambaforge/etc/profile.d/mamba.sh" ]; then
-    . "/Users/danthompson/mambaforge/etc/profile.d/mamba.sh"
+# Disable PIP_REQUIRE_VIRTUALENV if a Conda environment is active
+if [[ -n "$CONDA_PREFIX" ]]; then
+    export PIP_REQUIRE_VIRTUALENV=""
 fi
-## <<< conda initialize <<<
+
+# Function to dynamically adjust PIP_REQUIRE_VIRTUALENV when Conda is activated or deactivated
+conda_env_hook() {
+    if [[ -n "$CONDA_PREFIX" ]]; then
+        export PIP_REQUIRE_VIRTUALENV=""
+    else
+        export PIP_REQUIRE_VIRTUALENV=true
+    fi
+}
+
+# Attach the hook to Conda environment activation/deactivation
+export PROMPT_COMMAND="conda_env_hook; $PROMPT_COMMAND"
 
 
 

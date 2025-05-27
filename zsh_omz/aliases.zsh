@@ -27,6 +27,15 @@ alias startjackett="launchctl load ~/Library/LaunchAgents/Disabled/org.user.Jack
 alias install='nocorrect install'
 
 # aliases
+## Switch MCP server
+alias mm='~/Code/danhomebase/scripts/switch_mcp/switch_mcp.zsh'
+
+## Github Copilot
+alias -g cs="gh copilot suggest -t shell "
+alias -g ce="gh copilot explain "
+alias -g csg="gh copilot suggest -t git "
+alias -g csh="gh copilot suggest -t gh "
+
 ## Programs
 ### Firebase emulator
 alias emb="export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES"
@@ -122,6 +131,10 @@ alias jj="zi"
 
 ## Dir and file shortcuts
 # Work dirs
+# Dan home base
+alias ff='cd /Users/danthompson/Code/danhomebase'
+alias ffa='cd /Users/danthompson/Code/danhomebase/repos/allowability'
+alias fff='/usr/local/bin/cursor /Users/danthompson/Code/danhomebase/danhomebase.code-workspace'
 # Dictation app
 alias oww='cd /Users/danthompson/Code/Git/XCode/WhisperDictationApp'
 alias cww='cursor /Users/danthompson/Code/Git/XCode/WhisperDictationApp'
@@ -157,14 +170,167 @@ alias pybook='cd /Users/danthompson/Code/Courses/pydata-book; mamba activate pyd
 # activate data_science_env managed by conda/mamba
 alias ads='mamba activate data_science_env'
 
+
+# APP ALIASES
+## SGPT
+
+# File to store chat and REPL IDs
+ID_FILE="$HOME/.sgpt_ids"
+
+# Function to generate a timestamp-based unique ID
+generate_id() {
+  echo "$(date +%Y_%m_%d_%H_%M_%S)"
+}
+
+# Function to update the ID file
+update_id_file() {
+  sgpt -lc > "$ID_FILE"
+}
+
+# Function to remove duplicates and update the most recentID
+update_recent_id() {
+  local ID="$1"
+  grep -v "^$ID$" "$ID_FILE" > "$ID_FILE.tmp" && mv "$ID_FILE.tmp" "$ID_FILE"
+  echo "$ID" >> "$ID_FILE"
+}
+
+# Function to delete an ID
+delete_id() {
+  local ID="$1"
+  echo "Attempting to delete ID: $ID"
+
+  # Find the file associated with the ID
+  local FILE_PATH=$(sgpt -lc | grep "/$ID$")
+
+  # Check if a file was found
+  if [[ -n "$FILE_PATH" ]]; then
+    echo "Found file: $FILE_PATH"
+
+    # Confirm deletion
+    read -q "REPLY?Are you sure you want to delete this chat? (y/n) "
+    echo
+
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+      # Delete the file
+      rm "$FILE_PATH"
+      echo "File deleted: $FILE_PATH"
+
+      # Remove the ID from the ID_FILE
+      grep -v "^$ID$" "$ID_FILE" > "$ID_FILE.tmp" && mv "$ID_FILE.tmp" "$ID_FILE"
+      echo "ID removed from tracking file"
+    else
+      echo "Deletion cancelled"
+    fi
+  else
+    echo "No match found for ID: $ID. Aborting deletion."
+  fi
+}
+
+# Alias for creating a new REPL
+ggrn() {
+  local REPL_ID=${1:-"repl_$(generate_id)"}
+  echo "Chat ID: $REPL_ID"
+  sgpt --repl "$REPL_ID"
+  update_recent_id "$REPL_ID"
+}
+
+# Alias for creating a new chat
+ggcn() {
+  local PROMPT="$1"
+  local CHAT_ID=${2:-"chat_$(generate_id)"}
+  echo "Chat ID: $CHAT_ID"
+  sgpt --chat "$CHAT_ID" "$PROMPT"
+  update_recent_id "$CHAT_ID"
+}
+
+# Alias for resuming a REPL
+ggrr() {
+  local REPL_ID
+  if [ -n "$1" ]; then
+    REPL_ID="$1"
+  else
+    REPL_ID=$(tail -n 1 "$ID_FILE")
+  fi
+  echo "Chat ID: $REPL_ID"
+  sgpt --repl "$REPL_ID"
+  update_recent_id "$REPL_ID"
+}
+
+# Alias for resuming a chat
+ggcr() {
+  local CHAT_ID
+  if [ -n "$1" ]; then
+    CHAT_ID="$1"
+  else
+    CHAT_ID=$(tail -n 1 "$ID_FILE")
+  fi
+  echo "Chat ID: $CHAT_ID"
+  sgpt --chat "$CHAT_ID"
+  update_recent_id "$CHAT_ID"
+}
+
+ggcl() {
+  # list chats
+  grep -E '^chat_' "$ID_FILE" | sort -r
+}
+
+ggrl() {
+  # list repls
+  grep -E '^repl_' "$ID_FILE" | sort -r
+}
+
+ggsm() {
+  # show messages from provided chat ID
+  local CHAT_ID="$1"
+  sgpt --show-chat "$CHAT_ID"
+}
+
+
+# Alias for anonymous queries
+alias -g ggna='sgpt '
+alias -g ggs='sgpt '
+
+# Function to list recent IDs
+list_recent_ids() {
+  echo "Recent IDs:"
+  gtac "$ID_FILE" | nl
+}
+
+# Alias for resuming a REPL with interactive selection
+ggir() {
+  local REPL_ID=$(sgpt -lc | awk -F'/' '{print $NF}' | grep '^repl_' | fzf --prompt="Select REPL ID: ")
+  if [ -n "$REPL_ID" ]; then
+    echo "Chat ID: $REPL_ID"
+    sgpt --repl "$REPL_ID"
+    update_recent_id "$REPL_ID"
+  else
+    echo "No REPL ID selected."
+  fi
+}
+
+# Alias for resuming a chat with interactive selection
+ggic() {
+  local CHAT_ID=$(sgpt -lc | awk -F'/' '{print $NF}' | grep '^chat_' | fzf --prompt="Select Chat ID: ")
+  if [ -n "$CHAT_ID" ]; then
+    echo "Chat ID: $CHAT_ID"
+    sgpt --chat "$CHAT_ID" "$1"
+    update_recent_id "$CHAT_ID"
+  else
+    echo "No Chat ID selected."
+  fi
+}
+
+
 # global aliases
 ## Main program override
 alias -g e="eza -a"
 alias -g cat="bat -p"
 alias -g b="bat"
-alias -g gg="sgpt --repl tempr "
-alias -g ggc="sgpt --chat tempc "
-alias -g ggn="sgpt "
+# alias -g ggr="sgpt --repl tempr "
+# alias -g ggc="sgpt --chat tempc "
+alias -g gg="sgpt "
+alias -g ggr="sgpt --repl "
+alias -g ggc="sgpt --chat "
 alias -g cc="it2copy"
 
 alias ww="~/Code/Tools/cloned/whisper-writer/src/start_background_process.zsh"
@@ -190,6 +356,14 @@ alias -g ee="gh copilot explain "
 alias -g bb="fabric"
 
 # Alias functions
+
+# lint alias for aider
+# function lintpy() {
+#   cd coach_oll
+#   ruff format $*
+#   ruff check --fix $*
+#   pyright $*
+# }
 
 # alias search
 alias -g aas="alias | grep "

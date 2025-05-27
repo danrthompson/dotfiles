@@ -57,14 +57,14 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 alias odd='/bin/dd'
 
 function jfn() {
-    fd --type f --hidden --follow --exclude .git --exclude .history -d $1 | fzf --preview "bat -n --color=always {}"
+    fd --type f --hidden --follow --exclude .git --exclude .history -d $1 -a | fzf --preview "bat -n --color=always {}"
 }
 alias -g jf='jfn 3'
 alias jf4='jfn 4'
 alias jf5='jfn 5'
 
 function jdn() {
-    fd --type d --hidden --follow --exclude .git --exclude .history -d $1 | fzf --preview "tree -C {} | head -200"
+    fd --type d --hidden --follow --exclude .git --exclude .history -d $1 -a | fzf --preview "tree -C {} | head -200"
 }
 
 alias jd='jdn 3'

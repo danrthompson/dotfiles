@@ -111,4 +111,37 @@ eval "$(mcfly init zsh)"
 
 source /Users/danthompson/.config/broot/launcher/bash/br
 
-export PATH="$HOME/.local/share/uv/python/cpython-3.12.6-macos-aarch64-none/bin:$PATH"
+
+PATH="/Users/danthompson/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/Users/danthompson/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/Users/danthompson/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/Users/danthompson/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/Users/danthompson/perl5"; export PERL_MM_OPT;
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+alias claude="/Users/danthompson/.claude/local/claude"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# Created by `userpath` on 2025-04-18 19:43:28
+export PATH="$PATH:/Users/danthompson/Library/Application Support/hatch/pythons/3.12/python/bin"
+
+# Shell-GPT integration ZSH v0.2
+_sgpt_zsh() {
+if [[ -n "$BUFFER" ]]; then
+    _sgpt_prev_cmd=$BUFFER
+    BUFFER+="⌛"
+    zle -I && zle redisplay
+    BUFFER=$(sgpt --shell <<< "$_sgpt_prev_cmd" --no-interaction)
+    zle end-of-line
+fi
+}
+zle -N _sgpt_zsh
+bindkey ^l _sgpt_zsh
+# Shell-GPT integration ZSH v0.2
+
+# Added by Windsurf
+export PATH="/Users/danthompson/.codeium/windsurf/bin:$PATH"
