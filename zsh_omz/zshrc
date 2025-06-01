@@ -33,6 +33,7 @@ antigen bundle ag
 antigen bundle autopep8
 antigen bundle copypath
 antigen bundle copyfile
+antigen bundle tmux
 antigen bundle copybuffer
 antigen bundle direnv
 antigen bundle dirhistory

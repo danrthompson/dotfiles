@@ -58,3 +58,12 @@ COMPLETION_WAITING_DOTS="true"
 # or set a custom format using the strftime function format specifications,
 # see 'man strftime' for details.
 HIST_STAMPS="yyyy-mm-dd"
+
+
+
+# Enable tmux
+
+# Auto-start or attach to tmux session on terminal launch
+if command -v tmux &>/dev/null && [ -z "$TMUX" ]; then
+  tmux attach -t main || tmux new -s main
+fi
