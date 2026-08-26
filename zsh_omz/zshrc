@@ -5,7 +5,8 @@
 ## path
 # If you come from bash you might have to change your $PATH.
 export FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-export PATH="$HOME/.local/bin:$PATH"
+typeset -U path PATH
+path=("$HOME/.local/bin" $path)
 
 # uv
 
@@ -78,7 +79,13 @@ antigen bundle mafredri/zsh-async --branch=main
 # antigen bundle mm/jsontools
 
 antigen apply
-source $ZSH/oh-my-zsh.sh
+
+# Antigen loads the Oh My Zsh framework and plugins. Load personal custom
+# files explicitly once instead of sourcing the entire framework a second time.
+for custom_config in "$ZSH_CUSTOM"/*.zsh(N); do
+  source "$custom_config"
+done
+unset custom_config
 
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
@@ -88,20 +95,10 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Enable color
-set t_Co = 256
-
 ssh-add ~/.ssh/id_raspberry_pi > /dev/null 2>&1
 autoload -Uz compinit
 zstyle ':completion:*' menu select
 fpath+=~/.zfunc
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/danthompson/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/danthompson/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/danthompson/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/danthompson/google-cloud-sdk/completion.zsh.inc'; fi
-
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
@@ -126,9 +123,6 @@ export NVM_DIR="$HOME/.nvm"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# Created by `userpath` on 2025-04-18 19:43:28
-export PATH="$PATH:/Users/danthompson/Library/Application Support/hatch/pythons/3.12/python/bin"
-
 # Shell-GPT integration ZSH v0.2
 _sgpt_zsh() {
 if [[ -n "$BUFFER" ]]; then
@@ -142,6 +136,3 @@ fi
 zle -N _sgpt_zsh
 bindkey ^l _sgpt_zsh
 # Shell-GPT integration ZSH v0.2
-
-# Added by Windsurf
-export PATH="/Users/danthompson/.codeium/windsurf/bin:$PATH"

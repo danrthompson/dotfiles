@@ -18,8 +18,6 @@
 # }
 
 
-alias -g u="cursor"
-
 alias stopjackett="launchctl unload ~/Library/LaunchAgents/Disabled/org.user.Jackett.plist"
 alias startjackett="launchctl load ~/Library/LaunchAgents/Disabled/org.user.Jackett.plist"
 
@@ -38,6 +36,15 @@ alias -g csg="gh copilot suggest -t git "
 alias -g csh="gh copilot suggest -t gh "
 
 ## Programs
+### Editors
+# Semantic entry points. The native commands remain available unchanged.
+alias e='zed'
+alias u='zed'
+alias cur='cursor'
+alias bb='bbedit'
+alias md='open -a Typora --'
+alias ide='code --profile Workbench'
+
 ### Firebase emulator
 alias emb="export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES"
 alias ema="unset OBJC_DISABLE_INITIALIZE_FORK_SAFETY"
@@ -324,7 +331,6 @@ ggic() {
 
 # global aliases
 ## Main program override
-alias -g e="eza -a"
 alias -g cat="bat -p"
 alias -g b="bat"
 # alias -g ggr="sgpt --repl tempr "
@@ -354,8 +360,6 @@ alias psh="poetry shell"
 
 alias -g ss="gh copilot suggest -t shell "
 alias -g ee="gh copilot explain "
-alias -g bb="fabric"
-
 # Alias functions
 
 # lint alias for aider

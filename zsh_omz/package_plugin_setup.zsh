@@ -18,12 +18,13 @@ export PATH="/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH"
 export PIPX_DEFAULT_PYTHON="/Users/danthompson/.pyenv/versions/pipx_venv/bin/python"
 
 
-# vscode
-## Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
+# Preferred editor for local and remote sessions
+if [[ -n "${SSH_CONNECTION:-}" ]]; then
     export EDITOR='nano'
+    export VISUAL='nano'
 else
-    export EDITOR='cursor'
+    export EDITOR='zed --wait'
+    export VISUAL='zed --wait'
 fi
 
 # python venv
@@ -50,7 +51,7 @@ fi
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/opt/homebrew/Caskroom/miniforge/base/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+__conda_setup="$('/opt/homebrew/Caskroom/miniforge/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
@@ -77,8 +78,9 @@ conda_env_hook() {
     fi
 }
 
-# Attach the hook to Conda environment activation/deactivation
-export PROMPT_COMMAND="conda_env_hook; $PROMPT_COMMAND"
+# Refresh the pip guard before each zsh prompt.
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd conda_env_hook
 
 
 
@@ -87,19 +89,8 @@ export PROMPT_COMMAND="conda_env_hook; $PROMPT_COMMAND"
 fpath=(~/.zsh.d/ $fpath)
 ## export PATH="/Users/danthompson/.local/bin:$PATH"
 
-# iTerm
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-# antigen
-source /opt/homebrew/share/antigen/antigen.zsh
-
 # fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-
-# # p10k theme
-# ## To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 
 # Completions
@@ -167,47 +158,8 @@ eval "$(zoxide init zsh)"
 # export _FASD_BACKENDS="native current spotlight"
 # export _FASD_NOCASE=1
 
-# Shell-GPT integration ZSH v0.1
-_sgpt_zsh() {
-if [[ -n "$BUFFER" ]]; then
-    _sgpt_prev_cmd=$BUFFER
-    BUFFER+="⌛"
-    zle -I && zle redisplay
-    BUFFER=$(sgpt --shell <<< "$_sgpt_prev_cmd")
-    zle end-of-line
-fi
-}
-zle -N _sgpt_zsh
-bindkey ^l _sgpt_zsh
-# Shell-GPT integration ZSH v0.1
-
-eval "$(fnm env --use-on-cd)"
-
-async_init
-
-# Async load slow things
-function async_load_slow_packages() {
-    # pyenv
-    # eval "$(command pyenv init -)"
-    # eval "$(command pyenv virtualenv-init -)"
-
-
-    # direnv
-    # eval "$(direnv hook zsh)"
-
-    # The next line updates PATH for the Google Cloud SDK.
-    if [ -f '/Users/danthompson/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/danthompson/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-    # The next line enables shell command completion for gcloud.
-    if [ -f '/Users/danthompson/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/danthompson/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
-}
-
-async_start_worker slow_packages_worker -n
-async_register_callback slow_packages_worker async_load_slow_packages
-async_job slow_packages_worker async_load_slow_packages
-
-# fast stuff from async load
+# Shell behavior
 export MCFLY_FUZZY=2
-export NVM_DIR="$HOME/.nvm"
 
 # brew python flags
 export LDFLAGS="-L/opt/homebrew/opt/openssl@3/lib"
