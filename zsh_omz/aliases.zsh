@@ -29,6 +29,7 @@ alias install='nocorrect install'
 # aliases
 ## Switch MCP server
 alias mm='~/Code/danhomebase/scripts/switch_mcp/switch_mcp.zsh'
+alias fm='~/Code/danhomebase/scripts/switch_mcp/create_fast_config.zsh'
 
 ## Github Copilot
 alias -g cs="gh copilot suggest -t shell "

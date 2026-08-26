@@ -63,7 +63,8 @@ HIST_STAMPS="yyyy-mm-dd"
 
 # Enable tmux
 
-# Auto-start or attach to tmux session on terminal launch
-if command -v tmux &>/dev/null && [ -z "$TMUX" ]; then
-  tmux attach -t main || tmux new -s main
-fi
+# # Auto-start or attach to tmux session on terminal launch
+# if command -v tmux &>/dev/null && [ -z "$TMUX" ]; then
+#   # Attach or create session, always create a new window for each tab
+#   tmux new-session -A -D -s main \; new-window
+# fi
