@@ -422,3 +422,5 @@ aaa() {
 }
 
 # # auto added
+# Crash iTerm2 without ⌘⌥Esc: Force Quit also kills iTerm's session server, SIGKILL on the app alone lets tabs survive.
+alias iterm-kill='kill -9 $(pgrep -x iTerm2)'
