@@ -1,10 +1,21 @@
+ssh-add ~/.ssh/id_raspberry_pi > /dev/null 2>&1
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # export ANTIGEN_LOG="/Users/danthompson/.antigen.log"
 
 # export ADD_ALIAS_FILE="/Users/danthompson/Code/dotfiles/zsh_omz/aliases.zsh"
 
 ## path
 # If you come from bash you might have to change your $PATH.
-export FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+export FPATH="${HOMEBREW_PREFIX:-/opt/homebrew}/share/zsh/site-functions:${FPATH}"
+# Must be on fpath before oh-my-zsh runs compinit.
+fpath+=~/.zfunc
 typeset -U path PATH
 path=("$HOME/.local/bin" $path)
 
@@ -44,7 +55,6 @@ antigen bundle aliases
 antigen bundle alias-finder
 # antigen bundle alias-maker
 # antigen bundle ripgrep
-antigen bundle git-prompt
 antigen bundle Tarrasch/zsh-autoenv
 
 # antigen bundle fasd
@@ -87,18 +97,7 @@ for custom_config in "$ZSH_CUSTOM"/*.zsh(N); do
 done
 unset custom_config
 
-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-ssh-add ~/.ssh/id_raspberry_pi > /dev/null 2>&1
-autoload -Uz compinit
 zstyle ':completion:*' menu select
-fpath+=~/.zfunc
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
@@ -117,22 +116,23 @@ PERL_MB_OPT="--install_base \"/Users/danthompson/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/Users/danthompson/perl5"; export PERL_MM_OPT;
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Sourcing nvm.sh costs ~0.4 s per shell. Put the newest installed node on PATH
+# directly and load nvm itself the first time `nvm` is run.
+path=("$NVM_DIR"/versions/node/v*/bin(Nn[-1]) $path)
+nvm() {
+  unfunction nvm
+  source "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
+  nvm "$@"
+}
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# Shell-GPT integration ZSH v0.2
-_sgpt_zsh() {
-if [[ -n "$BUFFER" ]]; then
-    _sgpt_prev_cmd=$BUFFER
-    BUFFER+="⌛"
-    zle -I && zle redisplay
-    BUFFER=$(sgpt --shell <<< "$_sgpt_prev_cmd" --no-interaction)
-    zle end-of-line
-fi
+# Show free memory in the right prompt only when it runs low (same % as `memory_pressure`).
+prompt_mem_low() {
+  local -i free=$(sysctl -n kern.memorystatus_level 2>/dev/null)
+  (( free && free < 25 )) || return
+  p10k segment -f $(( free < 10 ? 1 : 3 )) -t "mem ${free}%"
 }
-zle -N _sgpt_zsh
-bindkey ^l _sgpt_zsh
-# Shell-GPT integration ZSH v0.2
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(mem_low $POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS)
